@@ -2,6 +2,8 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'lil-gui'
 import * as CANNON from 'cannon'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 
 /**
  * Debug
@@ -60,6 +62,26 @@ gui.add(debugObject, 'reset')
  */
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
+
+
+/**
+ * Models
+ */
+
+const dracoLoader = new DRACOLoader()
+dracoLoader.setDecoderPath('/draco/')
+
+const gltfLoader = new GLTFLoader()
+gltfLoader.setDRACOLoader(dracoLoader)
+
+gltfLoader.load(
+      '/models/Duck/glTF-Draco/Duck.gltf',
+    (gltf) =>
+    {
+        console.log(gltf)
+        scene.add(gltf.scene.children[0])
+    }
+)
 
 // Scene
 const scene = new THREE.Scene()
